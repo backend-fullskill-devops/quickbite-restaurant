@@ -65,4 +65,16 @@ public class RestaurantController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ApiResponse.success("Menu item added successfully", response));
     }
+
+    @GetMapping("/{id}/status")
+    public ResponseEntity<ApiResponse<Boolean>> getRestaurantStatus(@PathVariable Long id) {
+        boolean isOpen = restaurantService.isRestaurantOpen(id);
+        return ResponseEntity.ok(ApiResponse.success(isOpen));
+    }
+
+    @GetMapping("/{id}/menu-items")
+    public ResponseEntity<ApiResponse<List<MenuItemResponse>>> getMenuItems(@PathVariable Long id) {
+        List<MenuItemResponse> response = restaurantService.getMenuItems(id);
+        return ResponseEntity.ok(ApiResponse.success(response));
+    }
 }

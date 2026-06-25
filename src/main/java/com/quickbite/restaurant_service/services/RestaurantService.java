@@ -99,6 +99,32 @@ public class RestaurantService {
         return mapToRestaurantResponse(saved);
     }
 
+    @Transactional(readOnly = true)
+    public boolean isRestaurantOpen(Long restaurantId) {
+        Restaurant restaurant = restaurantRepository.findById(restaurantId)
+                .orElseThrow(() -> new RuntimeException("Restaurant not found with id: " + restaurantId));
+        return restaurant.isOpen();
+    }
+
+    @Transactional(readOnly = true)
+    public List<MenuItemResponse> getMenuItems(Long restaurantId) {
+        Restaurant restaurant = restaurantRepository.findById(restaurantId)
+                .orElseThrow(() -> new RuntimeException("Restaurant not found with id: " + restaurantId));
+        
+        List<MenuItem> items = new ArrayList<>();
+        if (restaurant.getCategories() != null) {
+            for (MenuCategory category : restaurant.getCategories()) {
+                if (category.getMenuItems() != null) {
+                    items.addAll(category.getMenuItems());
+                }
+            }
+        }
+        
+        return items.stream()
+                .map(this::mapToMenuItemResponse)
+                .collect(Collectors.toList());
+    }
+
     private RestaurantResponse mapToRestaurantResponse(Restaurant restaurant) {
         RestaurantResponse response = new RestaurantResponse();
         response.setId(restaurant.getId());
