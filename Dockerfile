@@ -9,7 +9,7 @@ COPY . .
 RUN chmod +x ./gradlew && ./gradlew bootJar --no-daemon
 
 # Stage 2: Giai đoạn chạy ứng dụng (Runtime stage)
-FROM eclipse-temurin:17-jre-alpine
+FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
 
 # Sao chép file JAR đã biên dịch từ Stage 1 (builder) sang Stage 2
