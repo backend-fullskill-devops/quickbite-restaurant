@@ -1,8 +1,15 @@
 image: eclipse-temurin:21-jdk-alpine
 
+stages:
+  - test
+
 variables:
   IMAGE_NAME: "restaurant-service"
 
 run_test:
+  stage: test
+  tags:
+    - quickbite
   script:
+    - chmod +x ./gradlew
     - ./gradlew test
