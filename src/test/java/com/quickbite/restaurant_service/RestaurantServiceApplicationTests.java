@@ -10,4 +10,8 @@ class RestaurantServiceApplicationTests {
 	void contextLoads() {
 	}
 
+	@Test
+	void test() {
+		assert true;
+	}
 }

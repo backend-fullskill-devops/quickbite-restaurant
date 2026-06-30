@@ -2,11 +2,18 @@
 FROM eclipse-temurin:21-jdk-alpine AS builder
 WORKDIR /app
 
-# Sao chép toàn bộ mã nguồn vào container (kết hợp .dockerignore để loại bỏ thư mục build/ và .gradle/ local)
-COPY . .
+COPY gradlew .
+COPY gradle gradle
+COPY build.gradle .
 
 # Cấp quyền thực thi và tiến hành biên dịch JAR (sử dụng --no-daemon để tránh treo máy trong container)
-RUN chmod +x ./gradlew && ./gradlew bootJar --no-daemon
+RUN chmod +x ./gradlew 
+
+RUN ./gradlew dependencies --no-daemon
+
+COPY src src
+
+RUN ./gradlew bootJar --no-daemon
 
 # Stage 2: Giai đoạn chạy ứng dụng (Runtime stage)
 FROM eclipse-temurin:21-jre-alpine

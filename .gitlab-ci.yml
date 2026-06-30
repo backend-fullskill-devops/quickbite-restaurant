@@ -1,0 +1,8 @@
+image: eclipse-temurin:21-jdk-alpine
+
+variables:
+  IMAGE_NAME: "restaurant-service"
+
+run_test:
+  script:
+    - ./gradlew test
