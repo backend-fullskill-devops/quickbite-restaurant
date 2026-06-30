@@ -6,6 +6,7 @@ stages:
 variables:
   IMAGE_NAME: "restaurant-service"
 
+# Test job
 run_test:
   stage: test
   tags:
