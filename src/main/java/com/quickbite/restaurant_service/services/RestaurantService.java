@@ -9,6 +9,7 @@ import com.quickbite.restaurant_service.repositories.MenuItemRepository;
 import com.quickbite.restaurant_service.repositories.RestaurantRepository;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 @RequiredArgsConstructor
+@Slf4j
 public class RestaurantService {
 
     private final RestaurantRepository restaurantRepository;
@@ -103,7 +105,9 @@ public class RestaurantService {
     public boolean isRestaurantOpen(Long restaurantId) {
         Restaurant restaurant = restaurantRepository.findById(restaurantId)
                 .orElseThrow(() -> new RuntimeException("Restaurant not found with id: " + restaurantId));
-        return restaurant.isOpen();
+        boolean open = restaurant.isOpen();
+        log.info("Restaurant availability checked: restaurantId={}, open={}", restaurantId, open);
+        return open;
     }
 
     @Transactional(readOnly = true)
